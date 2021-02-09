@@ -40,6 +40,8 @@ omf install neolambda
 
 ## TODOs
 
+- [ ] use command+right-arrow to toggle the display of the `fish_right_prompt.fish`
+    - or possible control+\
 - [ ] experiment with creating an animated svg to replace / complement the animaged gif
 
   `cat myrecrod.cast | svg-term --out myrecord.svg --window`
