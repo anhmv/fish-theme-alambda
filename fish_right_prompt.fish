@@ -14,8 +14,9 @@ function fish_right_prompt
     set_color blue
   end
   printf ' (%s)' (__print_duration $cmd_duration)
-  set_color 666666
-  printf ' < %s' (date +%H:%M:%S)
+  # set_color 666666
+  # NOTE: ipatch, date taking too much space
+  # printf ' < %s' (date +%H:%M:%S)
   set_color normal
 end
 
@@ -38,7 +39,7 @@ function __tmux_prompt
 end
 
 function _get_tmux_window
-  tmux lsw | grep active | sed 's/\*.*$//g;s/: / /1' | awk '{ print $2 "-" $1 }' -
+  # tmux lsw | grep active | sed 's/\*.*$//g;s/: / /1' | awk '{ print $2 "-" $1 }' -
 end
 
 function _get_screen_window
