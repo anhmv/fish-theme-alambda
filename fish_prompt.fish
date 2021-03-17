@@ -23,6 +23,7 @@ function fish_prompt
   set -g __fish_git_prompt_showdirtystate true
   set -g __fish_git_prompt_showuntrackedfiles true
   set -g __fish_git_prompt_showstashstate true
+  set -g __fish_git_prompt_showupstream none
 
   # FIXME: below var causes rendering issues with fish v3.2.0
   set -g __fish_git_prompt_show_informative_status true 
@@ -33,12 +34,11 @@ function fish_prompt
     # set -g __fish_prompt_hostname (hostname|cut -d . -f 1)
     set -g __fish_prompt_hostname $orange(hostname|cut -d . -f 1)(set_color normal)
   end
-  if not set -q __fish_prompt_char
-    if [ (id -u) -eq 0 ]
-      set -g __fish_prompt_char (set_color red)'λ'(set_color normal)
-    else  
-      set -g __fish_prompt_char 'λ'
-    end
+
+  if [ (id -u) -eq 0 ]
+    set -g __fish_prompt_char (set_color red)'λ'(set_color normal)
+  else  
+    set -g __fish_prompt_char 'λ'
   end
   
   # change `at` to `ssh` when an interactive ssh session is present
@@ -60,17 +60,25 @@ function fish_prompt
   if [ (id -u) -eq 0 ]
     # top line > Superuser
     echo -n $red'╭─'$hotpink$USER $white$location $__fish_prompt_hostname$white' in '$limegreen(pwd)$turquoise
-    __fish_git_prompt " (%s)"
+    echo -n ' ('(git_branch_name)')'
     echo
     # bottom line > Superuser
     echo -n $red'╰'
     echo -n $red'─'$__fish_prompt_char $normal
   else # top line > non superuser's
     echo -n $white'╭─'$hotpink$USER $white$location $__fish_prompt_hostname$white' in '$limegreen(pwd)$turquoise
-    __fish_git_prompt " (%s)"
+    if [ (git_branch_name) ]
+      echo
+      echo -n $white'╰'
+      echo -n ' '$purple(git_branch_name)
+    end
     echo
     # bottom line > non superuser's
-    echo -n $white'╰'
+    if [ (git_branch_name) ]
+      echo -n $white'  ╰'
+    else
+      echo -n $white'╰'
+    end
     echo -n $white'─'$__fish_prompt_char $normal
   end
   
