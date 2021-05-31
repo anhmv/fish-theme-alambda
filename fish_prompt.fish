@@ -87,6 +87,7 @@ function fish_prompt
   # support for virtual env name
   if set -q VIRTUAL_ENV
       echo -n "($turquoise"(basename "$VIRTUAL_ENV")"$white)"
+      echo -n ' '
   end
 end
 
